@@ -30,7 +30,7 @@ ISR (SPI_STC_vect) {
 
   byte rd = SPDR;     // grab byte from SPI Data Register
   char wr;
-  wr = rd + (rd!=0);
+  wr = rd + (rd!=0);  // create modified write data from read (e.g. increment)
  
   if (pos < sizeof(rx)) {
     tx[pos] = wr;     // tx_buffer with modified data
