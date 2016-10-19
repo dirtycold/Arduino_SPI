@@ -1,7 +1,7 @@
 #include <SPI.h>
 
-char tx [20];
-char rx [20];
+char tx [100];
+char rx [100];
 volatile byte pos;
 volatile boolean process_it;
 
@@ -30,7 +30,7 @@ ISR (SPI_STC_vect) {
 
   byte rd = SPDR;     // grab byte from SPI Data Register
   char wr;
-  wr = rd + (rd!=0);  // create modified write data from read (e.g. increment)
+  wr = toupper(rd);// +(rd != 0);  // create modified write data from read (e.g. increment)
  
   if (pos < sizeof(rx)) {
     tx[pos] = wr;     // tx_buffer with modified data
@@ -41,14 +41,14 @@ ISR (SPI_STC_vect) {
     process_it = true;   
 }
 
-void loop (void)
+void loop (void) 
 {
 // wait for flag set in interrupt routine
   if (process_it) {
-//    tx [pos] = 0;  // make sure we're nul terminated
-//    rx [pos] = 0;  
-//    Serial.print(  String("rx << ") + String(rx));
-//    Serial.println(String("    tx >> ") + String(tx));
+    tx [pos] = 0;  // make sure we're nul terminated
+    rx [pos] = 0;  
+    Serial.print(  String("rx << ") + String(rx));
+    Serial.println(String("    tx >> ") + String(tx));
     pos = 0;
     process_it = false;
   }
