@@ -98,7 +98,7 @@ void loop (void)
     else {
         Serial.print("rx<< ");
         for (int ii = 0; ii < pos; ii++) {
-            if (rx[ii] < HEX) 
+            if ((unsigned char)rx[ii] < HEX) 
                 Serial.print("0");
             Serial.print((unsigned char)rx[ii], HEX);
             Serial.print(" ");
